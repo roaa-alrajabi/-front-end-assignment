@@ -1,19 +1,21 @@
 <template>
-    <div>
-    <mainPage/>
+  <div >
+     <!-- <AllPosts/> -->
+    <Header/>
     <nuxt/>
-    </div>
+  </div>
   </template>
 
+<script> 
 
-
-<script>
-import mainPage from "../components/mainPage.vue"
+import Header from "../components/Header.vue"
 
 export default {
-   component :{
-    mainPage
+  components:{
+    Header
+  }
 }
-};
+
+
 
 </script>

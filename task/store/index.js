@@ -3,15 +3,15 @@ import axios from 'axios'
 
 export const state = () =>({
   users: [],
+  posts:[],
   post:[],
-  comment:[],
   
 })
 
 export const getters ={
   allUsers : (state) =>  state.users,
-  allPosts : (state)=> state.post,
-  allComment: (state)=>state.comment,
+  allPosts : (state)=> state.posts,
+  post: (state)=>state.post,
 }
 
 export const mutations = {
@@ -20,10 +20,10 @@ export const mutations = {
        return state.users = users;
       },
     Set_POST(state, payload) {
-      state.post = payload;
+      state.posts = payload;
      },
-     Set_COMMENT(state,payload){
-      state.comment =payload;
+     EACH_POST(state,payload){
+      state.post =payload;
      }
 };
 export const actions = {
@@ -41,13 +41,47 @@ export const actions = {
       let posts = [];
         for(const post of res.data ){
           const resComments = await axios.get(`https://jsonplaceholder.typicode.com/posts/${post.id}/comments`)
-          posts.push({...post, user:users[post.userId], comments:resComments.data})
+          const resPost = await axios.get(`https://jsonplaceholder.typicode.com/posts/${post.id}`)
+          posts.push({...post, user:users[post.userId], comments:resComments.data })
+         
         }
         console.log(posts);
         context.commit('Set_POST', posts);
   },
 
 
+  async fetchEachPost({commit},{id}) {
+    let post =[];
+    const resPost = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    const resComments = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`)
+    const resUser = await axios.get(`https://jsonplaceholder.typicode.com/users/${resPost.data.userId}`)
+    post.push({post:resPost.data,comments:resComments.data,user:resUser.data })
+    console.log(post);
+    // const res = await axios.get(`https://jsonplaceholder.typicode.com/posts`)
+    // console.log(res.data);
+    
+      // const resPost = await axios.get(`https://jsonplaceholder.typicode.com/posts/${post.id}`)
+      // const resComments = await axios.get(`https://jsonplaceholder.typicode.com/posts/${post.id}/comments`)
+      // Eachpost.push({Eachpost:resPost.data, comments:resComments.data })
+      // console.log(Eachpost);
+    
+   
+       
+  //  const resUsers =await axios.get('https://jsonplaceholder.typicode.com/users')
+        
+  //      let posts = [];
+  //      let roaa=[]
+  //        for(const post of res.data ){
+  //          const resComments = await axios.get(`https://jsonplaceholder.typicode.com/posts/${post.id}/comments`)
+  //          const resPost = await axios.get(`https://jsonplaceholder.typicode.com/posts/${post.id}`)
+  //          posts.push({...post, user:users[post.userId], comments:resComments.data })
+  //          roaa.push({rr:resPost.data})
+  //        }
+  //        console.log(posts);
+  //        console.log(roaa);
+         commit('EACH_POST', {post:post} );
+   },
+ 
   // async fetchComments(context, postId) {
   //   return await axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
   //   .then(res => {
