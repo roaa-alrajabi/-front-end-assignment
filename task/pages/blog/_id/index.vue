@@ -1,5 +1,6 @@
 <template>
-  <div class="postr-container bg-[#f3f2ef] flex">
+  <div class="post-container bg-[#f3f2ef] flex">
+    <!-- start user info card  section -->
     <div
       v-for="(item,  index) in getPost"
       :key="index"
@@ -12,19 +13,19 @@
           alt="Current profile photo"
         />
       </div>
-      <div class="user-card-blk text-center ">
+      <div class="user-card-blk text-center">
         <h3 class="user-name">{{ item[0].user.name }}</h3>
         <span class="company-name text-sm text-slate-400">{{item[0].user.company.name}}</span>
         <span class="company-name text-sm text-slate-400 mb-4">{{item[0].user.email}}</span>
       </div>
       <div class="connection-btn text-center">
-        <button class="mt-4 py-1 px-16 bg-blue-600 text-white font-semibold rounded-full">connection </button>
-
+        <button class="mt-4 py-1 px-16 bg-blue-600 text-white font-semibold rounded-full">connection</button>
       </div>
     </div>
-    <div
-      class="postr-section bg-white mx-5 px-2 mb-2 border border-zinc-300 rounded w-[40rem] mt-4"
-    >
+    <!-- end user info card  section -->
+
+    <!-- start post section -->
+    <div class="post-section bg-white mx-5 px-2 mb-2 border border-zinc-300 rounded w-[40rem] mt-4">
       <div class="flex">
         <div class="user-image-blk py-4 px-2">
           <img
@@ -38,15 +39,16 @@
           <h3 class="company-name text-sm text-slate-400">{{item[0].user.company.name}}</h3>
         </div>
       </div>
-
-      <div class="postr-blk px-4 pb-2 mb-4 border-b border-slate-200">
+      <div class="body-post-blk px-4 pb-2 mb-4 border-b border-slate-200">
         <span
           v-for="(item,  index) in getPost.post"
           :key="index"
           class="font-sans text-base font-light mb-4"
         >{{ item.post.body }}</span>
       </div>
+      <!-- end post section -->
 
+      <!-- start user-interaction-section-->
       <div class="user-interaction-section flex justify-around mb-4">
         <div class="text-slate-400">Like</div>
         <div class="text-slate-400">Comment</div>
@@ -69,7 +71,9 @@
           />
         </div>
       </div>
+      <!-- end user-interaction-section-->
 
+      <!-- start comments that related to post  -->
       <div
         class="comments-section mx-auto mb-2 w-[37rem]"
         v-for="(item,index) in getPost"
@@ -88,11 +92,12 @@
             <div class="user-info-blk mx-auto pl-2 mb-2 bg-slate-100 rounded-b-md rounded-tr-md">
               <h3 class="user-name">{{item.name}}</h3>
               <h3 class="company-name text-sm text-slate-400">Company Name</h3>
-              <span class="font-sans text-base font-light">{{item.body}}</span>
+              <span class="body-comment-blk font-sans text-base font-light">{{item.body}}</span>
             </div>
           </div>
         </div>
       </div>
+      <!-- end comments that related to post  -->
     </div>
   </div>
 </template>
@@ -100,6 +105,19 @@
     <script>
 export default {
   name: "index",
+  head() {
+    return {
+      title: "post|linkedIn",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content:
+            " search for job, post, bilud community network and  bilud cv "
+        }
+      ]
+    };
+  },
   computed: {
     getPost() {
       return this.$store.state.post;
@@ -107,7 +125,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("fetchEachPost", { id: this.$route.params.id });
+    this.$store.dispatch("fetchPostById", { id: this.$route.params.id });
   }
 };
 </script>

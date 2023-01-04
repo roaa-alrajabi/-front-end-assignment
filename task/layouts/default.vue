@@ -1,21 +1,16 @@
 <template>
-  <div >
-     <!-- <AllPosts/> -->
-    <Header/>
-    <nuxt/>
+  <div>
+    <Header />
+    <nuxt />
   </div>
-  </template>
+</template>
 
-<script> 
-
-import Header from "../components/Header.vue"
+<script>
+import Header from "../components/Header.vue";
 
 export default {
-  components:{
+  components: {
     Header
   }
-}
-
-
-
+};
 </script>
